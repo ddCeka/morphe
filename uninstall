@@ -1,0 +1,38 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+## Directories
+TERMUX_DIR="$HOME/.local/morphe"
+
+## Script Termination
+exit_on_signal_SIGINT () {
+    { printf "\n\n%s\n" "    [*] Script interrupted." 2>&1; }
+    exit 0
+}
+
+exit_on_signal_SIGTERM () {
+    { printf "\n\n%s\n" "    [*] Script terminated." 2>&1; }
+    exit 0
+}
+
+trap exit_on_signal_SIGINT SIGINT
+trap exit_on_signal_SIGTERM SIGTERM
+
+## Check for previous installation
+uninstall_morphe() {
+	if [[ (-f $PREFIX/bin/morphe) && (-d $TERMUX_DIR) ]]; then
+		{ echo; echo "    [*] Uninstalling morphe..."; echo; }
+		{ rm -rf $PREFIX/bin/morphe $TERMUX_DIR; }
+		# Verify files
+		if [[ (! -f $PREFIX/bin/morphe) && (! -d $TERMUX_DIR) ]]; then
+			{ echo; echo "    [*] Uninstalled Successfully."; echo; }
+			{ exit 0; }
+		else
+			{ echo "    [!] Error Occured."; echo; exit 1; }
+		fi
+	else
+		{ echo; echo "    [!] Morphe is not installed."; echo; }
+		{ exit 0; }
+	fi
+}
+
+uninstall_morphe

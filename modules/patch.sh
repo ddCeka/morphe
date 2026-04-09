@@ -28,61 +28,174 @@ findPatchedApp() {
 }
 
 patchApp() {
+    local SOURCE_TYPE
+
     if [ ! -e "apps/$APP_NAME/$APP_VER.apk" ]; then
         notify msg "Apk not found !!\nTry importing Apk from Storage."
         return 1
     fi
 
-    readarray -t ARGUMENTS < <(
-        jq -nrc --arg PKG_NAME "$PKG_NAME" --argjson ENABLED_PATCHES "$ENABLED_PATCHES" '
-            $ENABLED_PATCHES[] |
-            select(.pkgName == $PKG_NAME) |
-            .options as $OPTIONS |
-            .patches[] |
-            . as $PATCH_NAME |
-            "--enable",
-            $PATCH_NAME,
-            (
-                $OPTIONS[] |
-                if .patchName == $PATCH_NAME then
-                    "--options=" +
-                    .key + "=" +
-                    (
-                        .value |
-                        if . != null then
-                            . | tostring
-                        else
-                            empty
-                        end
-                    )
-                else
-                    empty
-                end
-            )
-        '
-    )
+    case "$PATCHES_FILE" in
+        *.mpp)
+            SOURCE_TYPE="morphe"
+            ;;
+        *.rvp)
+            SOURCE_TYPE="revanced"
+            ;;
+    esac
+    # Migration
+    if [ -f "$HOME/.keystore/ceka.keystore" ]; then
+        if grep -qa "Morphe Key" "$STORAGE/ceka.keystore"; then
+            cp "$HOME/.keystore/ceka.keystore" "$STORAGE/morphe.keystore"
+        else grep -qa "ReVanced Key" "$STORAGE/ceka.keystore"; then
+            cp "$HOME/.keystore/ceka.keystore" "$STORAGE/revanced.keystore"
+        fi
+    fi
 
-    echo -e "Root Access: $ROOT_ACCESS\nArchitecture: $ARCH\nApp: $APP_NAME v$APP_VER\nCLI: $CLI_FILE\nPatches: $PATCHES_FILE\nArguments: ${ARGUMENTS[*]}\n\nLogs:\n" > "$STORAGE/patch_log.txt"
+    if [ "$SOURCE_TYPE" == "morphe" ]; then
+        readarray -t ARGUMENTS < <(
+            jq -nrc --arg PKG_NAME "$PKG_NAME" --argjson ENABLED_PATCHES "$ENABLED_PATCHES" '
+                $ENABLED_PATCHES[] |
+                select(.pkgName == $PKG_NAME) |
+                .options as $OPTIONS |
+                .patches[] |
+                . as $PATCH_NAME |
+                "-e",
+                $PATCH_NAME,
+                (
+                    $OPTIONS[] |
+                    if .patchName == $PATCH_NAME then
+                        "-O" +
+                        .key + "=" +
+                        (
+                            .value |
+                            if . != null then
+                                . | tostring
+                            else
+                                empty
+                            end
+                        )
+                    else
+                        empty
+                    end
+                )
+            '
+        )
 
-    java -jar "$CLI_FILE" patch \
-        --force --exclusive --purge --patches="$PATCHES_FILE" \
-        --out="apps/$APP_NAME/$APP_VER-$SOURCE.apk" \
-        "${ARGUMENTS[@]}" \
-        --custom-aapt2-binary="./bin/aapt2" \
-        --keystore="$STORAGE/revancify.keystore" \
-        "apps/$APP_NAME/$APP_VER.apk" |&
-        tee -a "$STORAGE/patch_log.txt" |
-        "${DIALOG[@]}" \
-            --ok-label 'Continue' \
-            --extra-button \
-            --extra-label 'Share Logs' \
-            --cursor-off-label \
-            --programbox "Patching $APP_NAME $APP_VER" -1 -1
+        echo -e "Root Access: $ROOT_ACCESS\nArchitecture: $ARCH\nApp: $APP_NAME v$APP_VER\nCLI: $CLI_FILE\nPatches: $PATCHES_FILE\nArguments: ${ARGUMENTS[*]}\n\nLogs:\n" > "logs/patch_log.txt"
+
+        java -jar "$CLI_FILE" patch \
+            --force --exclusive -p "$PATCHES_FILE" \
+            -o "apps/$APP_NAME/$APP_VER-$SOURCE.apk" \
+            "${ARGUMENTS[@]}" \
+            --keystore="$HOME/.keystore/ceka.keystore" \
+            "apps/$APP_NAME/$APP_VER.apk" |&
+            tee -a "logs/patch_log.txt" |
+            "${DIALOG[@]}" \
+                --ok-label 'Continue' \
+                --extra-button \
+                --extra-label 'Share Logs' \
+                --cursor-off-label \
+                --programbox "Patching $APP_NAME $APP_VER" -1 -1
+    elif [ "$SOURCE" == "ReVanced" ]; then
+        readarray -t ARGUMENTS < <(
+            jq -nrc --arg PKG_NAME "$PKG_NAME" --argjson ENABLED_PATCHES "$ENABLED_PATCHES" '
+                $ENABLED_PATCHES[] |
+                select(.pkgName == $PKG_NAME) |
+                .options as $OPTIONS |
+                .patches[] |
+                . as $PATCH_NAME |
+                "-e",
+                $PATCH_NAME,
+                (
+                    $OPTIONS[] |
+                    if .patchName == $PATCH_NAME then
+                        "-O" +
+                        .key + "=" +
+                        (
+                            .value |
+                            if . != null then
+                                . | tostring
+                            else
+                                empty
+                            end
+                        )
+                    else
+                        empty
+                    end
+                )
+            '
+        )
+
+        echo -e "Root Access: $ROOT_ACCESS\nArchitecture: $ARCH\nApp: $APP_NAME v$APP_VER\nCLI: $CLI_FILE\nPatches: $PATCHES_FILE\nArguments: ${ARGUMENTS[*]}\n\nLogs:\n" > "$STORAGE/patch_log.txt"
+
+        java -jar "$CLI_FILE" patch \
+            --bypass-verification --force --exclusive -p "$PATCHES_FILE" \
+            -o "apps/$APP_NAME/$APP_VER-$SOURCE.apk" \
+            "${ARGUMENTS[@]}" \
+            --custom-aapt2-binary="$HOME/bin/aapt2" \
+            --keystore="$HOME/.keystore/revanced.keystore" \
+            "apps/$APP_NAME/$APP_VER.apk" |&
+            tee -a "logs/patch_log.txt" |
+            "${DIALOG[@]}" \
+                --ok-label 'Continue' \
+                --extra-button \
+                --extra-label 'Share Logs' \
+                --cursor-off-label \
+                --programbox "Patching $APP_NAME $APP_VER" -1 -1
+    else
+        readarray -t ARGUMENTS < <(
+            jq -nrc --arg PKG_NAME "$PKG_NAME" --argjson ENABLED_PATCHES "$ENABLED_PATCHES" '
+                $ENABLED_PATCHES[] |
+                select(.pkgName == $PKG_NAME) |
+                .options as $OPTIONS |
+                .patches[] |
+                . as $PATCH_NAME |
+                "--enable",
+                $PATCH_NAME,
+                (
+                    $OPTIONS[] |
+                    if .patchName == $PATCH_NAME then
+                        "--options=" +
+                        .key + "=" +
+                        (
+                            .value |
+                            if . != null then
+                                . | tostring
+                            else
+                                empty
+                            end
+                        )
+                    else
+                        empty
+                    end
+                )
+            '
+        )
+
+        echo -e "Root Access: $ROOT_ACCESS\nArchitecture: $ARCH\nApp: $APP_NAME v$APP_VER\nCLI: $CLI_FILE\nPatches: $PATCHES_FILE\nArguments: ${ARGUMENTS[*]}\n\nLogs:\n" > "logs/patch_log.txt"
+
+        java -jar "$CLI_FILE" patch \
+            --force --exclusive --purge --patches="$PATCHES_FILE" \
+            --out="apps/$APP_NAME/$APP_VER-$SOURCE.apk" \
+            "${ARGUMENTS[@]}" \
+            --custom-aapt2-binary="$HOME/bin/aapt2" \
+            --keystore="$HOME/.keystore/revanced.keystore" \
+            "apps/$APP_NAME/$APP_VER.apk" |&
+            tee -a "logs/patch_log.txt" |
+            "${DIALOG[@]}" \
+                --ok-label 'Continue' \
+                --extra-button \
+                --extra-label 'Share Logs' \
+                --cursor-off-label \
+                --programbox "Patching $APP_NAME $APP_VER" -1 -1
+    fi
+
     EXIT_CODE=$?
     tput civis
 
     if [ $EXIT_CODE -eq 3 ]; then
-        termux-open --send "$STORAGE/patch_log.txt"
+        notify msg "Something went wrong !!\nCheck the logs."
     fi
 
     if [ ! -f "apps/$APP_NAME/$APP_VER-$SOURCE.apk" ]; then

@@ -1,0 +1,95 @@
+#!/usr/bin/bash
+
+SRC="$HOME/.local/morphe"
+
+HELP="morphe 
+
+A TUI Wrapper for Morphe CLI
+
+Usage: morphe [OPTION]
+
+Options:
+-h:  Print help statement
+-r:  Disable Root access
+-u:  Disable Update Check
+-v:  Print current version"
+
+while getopts ":hruv" OPT 2> /dev/null; do
+    case $OPT in
+        h)
+            echo -e "$HELP"
+            exit
+            ;;
+        r)
+            ROOT_ACCESS=false
+            ;;
+        u)
+            INTERNET_ACCESS=false
+            ;;
+        v)
+            if [ -e "$SRC" ]; then
+                source "$SRC/config/.info"
+                echo "$VERSION"
+            else
+                echo "Morphe not installed !!"
+            fi
+            exit
+            ;;
+        ?)
+            echo -e "Invalid option specified: -${OPTARG}"
+            echo -e "$HELP"
+            exit 1
+            ;;
+    esac
+done
+
+terminate() {
+    killall -9 curl &> /dev/null
+    killall -9 wget &> /dev/null
+    clear
+    echo "Script terminated !!"
+    exit 1
+}
+trap terminate SIGTERM SIGINT SIGABRT
+
+installDependencies() {
+    local BINS BIN
+    echo "Checking dependencies..."
+
+    BINS=$(ls "$PREFIX/bin")
+    grep -q java <<< "$BINS" || PKGS+=("openjdk-21")
+    grep -q apkeditor <<< "$BINS" || PKGS+=("apkeditor")
+    grep -q wget <<< "$BINS" || PKGS+=("wget")
+    grep -q tput <<< "$BINS" || PKGS+=("ncurses-utils")
+    grep -q dialog <<< "$BINS" || PKGS+=("dialog")
+    grep -q pup <<< "$BINS" || PKGS+=("pup")
+    grep -q jq <<< "$BINS" || PKGS+=("jq")
+    grep -q unzip <<< "$BINS" || PKGS+=("unzip")
+
+    if [ "${#PKGS[@]}" -ne 0 ]; then
+        pkg update || return 1
+        yes | pkg install "${PKGS[@]}" || return 1
+    fi
+
+    return 0
+}
+
+clear
+
+if ! installDependencies; then
+    echo -e "Dependencies not installed !!\nRun again with stable internet connection."
+    exit 1
+fi
+
+if [ "$ROOT_ACCESS" != false ] && su -c 'exit' &> /dev/null; then
+    ROOT_ACCESS=true
+else
+    ROOT_ACCESS=false
+fi
+
+cd "$SRC" &> /dev/null || terminate
+
+bash main.sh "$ROOT_ACCESS"
+EXIT_CODE=$?
+
+exit "$EXIT_CODE"

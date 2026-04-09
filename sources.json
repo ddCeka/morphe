@@ -4,7 +4,7 @@
         "repository": "ReVanced/revanced-patches",
         "api": {
             "json": "https://api.revanced.app/v4/patches/list",
-            "version": "https://api.revanced.app/v4/patches/version"
+            "version": null
         }
     },
     {
@@ -19,7 +19,15 @@
         "source": "Anddea",
         "repository": "anddea/revanced-patches",
         "api": {
-            "json": "https://raw.githubusercontent.com/anddea/revanced-patches/refs/heads/main/patches.json",
+            "json": "https://raw.githubusercontent.com/anddea/revanced-patches/refs/heads/main/patches-list.json",
+            "version": null
+        }
+    },
+    {
+        "source": "Piko",
+        "repository": "crimera/piko",
+        "api": {
+            "json": "https://raw.githubusercontent.com/crimera/piko/refs/heads/main/patches-list.json",
             "version": null
         }
     },
@@ -28,6 +36,46 @@
         "repository": "kitadai31/revanced-patches-android6-7",
         "api": {
             "json": "https://raw.githubusercontent.com/kitadai31/revanced-patches-android6-7/refs/heads/revanced-extended/patches.json",
+            "version": null
+        }
+    },
+    {
+        "source": "Morphe",
+        "repository": "MorpheApp/morphe-patches",
+        "api": {
+            "json": "https://raw.githubusercontent.com/MorpheApp/morphe-patches/refs/heads/main/patches-list.json",
+            "version": null
+        }
+    },
+    {
+        "source": "De-ReVanced",
+        "repository": "RookieEnough/De-ReVanced",
+        "api": {
+            "json": "https://raw.githubusercontent.com/RookieEnough/De-ReVanced/refs/heads/main/patches-list.json",
+            "version": null
+        }
+    },
+    {
+        "source": "RVX-Morphed",
+        "repository": "wchill/rvx-morphed",
+        "api": {
+            "json": "https://raw.githubusercontent.com/wchill/rvx-morphed/refs/heads/main/patches-list.json",
+            "version": null
+        }
+    },
+    {
+        "source": "Patcheddit",
+        "repository": "wchill/patcheddit",
+        "api": {
+            "json": "https://raw.githubusercontent.com/wchill/patcheddit/refs/heads/main/patches-list.json",
+            "version": null
+        }
+    },
+    {
+        "source": "ReVanced-Experiments",
+        "repository": "Aunali321/ReVancedExperiments",
+        "api": {
+            "json": null,
             "version": null
         }
     }

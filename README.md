@@ -1,11 +1,5 @@
-# Revancify 🛠️ (Archived)
-### A TUI wrapper for Revanced CLI with amazing features.
-
-[![TelegramChannel](https://img.shields.io/badge/Telegram_Support_Chat-2CA5E0?style=for-the-badge&logo=Telegram&logoColor=FFFFFF)](https://t.me/decipher_projects)
-
-## Alternative
-### 1. [ReVanced Manager (Official)](https://github.com/ReVanced/revanced-manager)
-### 2. [Universal ReVanced Manager](https://github.com/Jman-Github/Universal-ReVanced-Manager)
+# Morphe 🛠️
+### A TUI wrapper for Morphe CLI with amazing features.
 
 ## Termux
 
@@ -15,7 +9,6 @@
   </tr>
   <tr>
     <td><a href="https://github.com/termux/termux-app/releases/latest">Termux Official (Recommended)</a></td>
-    <td><a href="https://github.com/Termux-Monet/termux-monet/releases/latest">Termux Monet (Deprecated)</a></td>
   </tr>
 </table>
 
@@ -33,17 +26,17 @@
 ## Installation
 1. Download and Install [Termux](#termux).
 2. Open Termux.
-3. Copy and paste this command.
-```
-curl -sL https://github.com/decipher3114/Revancify/raw/refs/heads/main/install.sh | bash
-```
+3. Clone this repo and run `./install`.
 
 ## Usage
-After installation, type `revancify` in termux and press enter.  
+After installation, type `morphe` in termux and press enter.
 
-Or use with arguments. Check them with `revancify -h`
+Or use with arguments. Check them with `morphe -h`
+
+## Uninstallation
+1. Open Termux.
+2. Cd to cloned repository directory.
+3. Run `./uninstall`
 
 # Thanks & Credits
-[Revanced](https://github.com/revanced)  
-[Revanced Extended](https://github.com/inotia00)  
-
+[Morphe](https://github.com/MorpheApp)  

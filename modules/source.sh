@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+CONFIG_DIR="config"
+
 changeSource() {
     local SELECTED_SOURCE SOURCES_INFO
     readarray -t SOURCES_INFO < <(jq -r --arg SOURCE "$SOURCE" '.[] | .source | ., if . == $SOURCE then "on" else "off" end' sources.json)
@@ -15,6 +17,6 @@ changeSource() {
 
     [ "$SOURCE" == "$SELECTED_SOURCE" ] && return
     SOURCE="$SELECTED_SOURCE"
-    setEnv SOURCE "$SOURCE" update .config
+    setEnv SOURCE "$SOURCE" update "$CONFIG_DIR/.config"
     unset AVAILABLE_PATCHES APPS_INFO APPS_LIST ENABLED_PATCHES
 }

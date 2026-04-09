@@ -1,17 +1,17 @@
 #!/usr/bin/bash
 
+CONFIG_DIR="config"
+
 main() {
 
-    setEnv SOURCE "ReVanced" init .config
-    setEnv LIGHT_THEME "off" init .config
-    setEnv PREFER_SPLIT_APK "on" init .config
-    setEnv LAUNCH_APP_AFTER_MOUNT "on" init .config
-    setEnv ALLOW_APP_VERSION_DOWNGRADE "off" init .config
-    source .config
+    setEnv SOURCE "Morphe" init "$CONFIG_DIR/.config"
+    setEnv LIGHT_THEME "off" init "$CONFIG_DIR/.config"
+    setEnv PREFER_SPLIT_APK "off" init "$CONFIG_DIR/.config"
+    setEnv USE_PRE_RELEASE "off" init "$CONFIG_DIR/.config"
+    setEnv ALLOW_APP_VERSION_DOWNGRADE "on" init "$CONFIG_DIR/.config"
+    source "$CONFIG_DIR/.config"
 
-    mkdir -p "assets" "apps" "$STORAGE" "$STORAGE/Patched" "$STORAGE/Stock"
-
-    [ "$ROOT_ACCESS" == true ] && MENU_ENTRY=(7 "Unmount Patched app")
+    mkdir -p "assets" "apps" "$STORAGE" "logs"
 
     [ "$LIGHT_THEME" == "on" ] && THEME="LIGHT" || THEME="DARK"
     export DIALOGRC="config/.DIALOGRC_$THEME"
@@ -44,9 +44,6 @@ main() {
                 ;;
             6)
                 deleteApps
-                ;;
-            7)
-                umountApp
                 ;;
         esac
     done

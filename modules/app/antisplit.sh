@@ -18,7 +18,7 @@ antisplitApp() {
             -d "$APP_DIR" 2> /dev/null
     fi
 
-    java -jar bin/APKEditor.jar m -i "$APP_DIR" -o "apps/$APP_NAME/$APP_VER.apk" &> /dev/null
+    apkeditor m -i "$APP_DIR" -o "apps/$APP_NAME/$APP_VER.apk" &> /dev/null
 
     if [ ! -e "apps/$APP_NAME/$APP_VER.apk" ]; then
         rm -rf "$APP_DIR" &> /dev/null

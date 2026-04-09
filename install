@@ -1,0 +1,65 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+# To check if Termux is being used
+if [ $(ps -ef| grep -c com.termux) -eq 0 ]; then
+	echo "please make sure that you are using termux, this script is only made for termux"
+	exit 0
+fi
+
+## Directories
+TERMUX_DIR="$HOME/.local/morphe"
+DIR="$(pwd)"
+
+## Script Termination
+exit_on_signal_SIGINT() {
+    { printf "\n\n%s\n" "    [*] Script interrupted." 2>&1; echo; }
+    exit 0
+}
+
+exit_on_signal_SIGTERM() {
+    { printf "\n\n%s\n" "    [*] Script terminated." 2>&1; echo; }
+    exit 0
+}
+
+trap exit_on_signal_SIGINT SIGINT
+trap exit_on_signal_SIGTERM SIGTERM
+
+## Install Morphe
+install_morphe() {
+	echo "    [*] Installing morphe..."
+	# Delete old files
+	if [[ (-f $PREFIX/bin/morphe) && (-d $TERMUX_DIR) ]]; then
+	    echo "    [*] Deleting files from previous installation..."}
+		{ rm -rf $PREFIX/bin/morphe $TERMUX_DIR; echo; }
+	fi
+	# Copying files
+	{ echo "    [*] Copying files in destination directory..."; }
+	{ mkdir -p $TERMUX_DIR; cp -r $DIR/morphe $PREFIX/bin; cp -r $DIR/. $TERMUX_DIR; }
+	{ chmod +x $PREFIX/bin/morphe $TERMUX_DIR/main.sh; }
+	# Verify files 
+	if [[ (-f $PREFIX/bin/morphe) && (-d $TERMUX_DIR) ]]; then
+		{ echo; echo "    [*] Successfully Installed."; }
+		{ echo "    [*] type morphe to Run this Program."; echo; }
+		{ exit 0; }
+	else
+		{ echo "    [!] Error Occured."; echo; exit 1; }
+	fi
+}
+
+## Main
+main() {
+	# Check for previous installation
+	if [[ (-f $PREFIX/bin/morphe) && (-d $TERMUX_DIR) ]]; then
+		{ echo; echo "    [!] morphe is already installed."; }
+		{ read -p "    [?] Do you wanna re-install it? (y/n): "; echo; }
+		if [[ "$REPLY" =~ ^[y/Y]$ ]]; then
+			install_morphe
+		else
+			{ exit; }
+		fi
+	else
+		{ echo; install_morphe; }
+	fi
+}
+
+main

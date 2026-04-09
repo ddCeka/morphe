@@ -65,6 +65,7 @@ fetchAppsInfo() {
                             ) |
                             split("-")[:4] |
                             join("-"),
+                        "appUrl": $APP_URL,
                         "apkmirrorAppName": (
                                 $APP_URL |
                                 sub("-wear-os|-android-automotive"; "") |
@@ -75,7 +76,12 @@ fetchAppsInfo() {
             ' > "assets/$SOURCE/Apps-$PATCHES_VERSION.json" \
                 2> /dev/null
     else
-        notify msg "API request failed for apkmirror.com.\nTry again later..."
+        if [ -n "$TASK" ]; then
+            "${DIALOG[@]}" --extra-button --extra-label "Import" --msgbox "API request failed for apkmirror.com.\nTry again later..." -1 -1
+            [ $? -eq 3 ] && TASK="IMPORT_APP"
+        else
+            notify msg "API request failed for apkmirror.com.\nTry again later..."
+        fi
         return 1
     fi
 }
