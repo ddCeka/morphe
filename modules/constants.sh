@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 SRC="$HOME/.local/morphe"
-source "$SRC/config/.info"
+source "$CONFIG_DIR/.config"
 
 STORAGE="$HOME/app"
 
