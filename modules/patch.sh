@@ -88,7 +88,7 @@ patchApp() {
             --force --exclusive -p "$PATCHES_FILE" \
             -o "apps/$APP_NAME/$APP_VER-$SOURCE.apk" \
             "${ARGUMENTS[@]}" \
-            --keystore="$HOME/.keystore/ceka.keystore" \
+            --keystore="$STORAGE/*.keystore" \
             "apps/$APP_NAME/$APP_VER.apk" |&
             tee -a "logs/patch_log.txt" |
             "${DIALOG[@]}" \
@@ -134,7 +134,7 @@ patchApp() {
             -o "apps/$APP_NAME/$APP_VER-$SOURCE.apk" \
             "${ARGUMENTS[@]}" \
             --custom-aapt2-binary="$HOME/bin/aapt2" \
-            --keystore="$HOME/.keystore/revanced.keystore" \
+            --keystore="$STORAGE/*.keystore" \
             "apps/$APP_NAME/$APP_VER.apk" |&
             tee -a "logs/patch_log.txt" |
             "${DIALOG[@]}" \
@@ -180,7 +180,7 @@ patchApp() {
             --out="apps/$APP_NAME/$APP_VER-$SOURCE.apk" \
             "${ARGUMENTS[@]}" \
             --custom-aapt2-binary="$HOME/bin/aapt2" \
-            --keystore="$HOME/.keystore/revanced.keystore" \
+            --keystore="$STORAGE/*.keystore" \
             "apps/$APP_NAME/$APP_VER.apk" |&
             tee -a "logs/patch_log.txt" |
             "${DIALOG[@]}" \
