@@ -1,5 +1,9 @@
 #!/usr/bin/bash
 
+SRC="$HOME/.local/morphe"
+CONFIG_DIR="config"
+source "$CONFIG_DIR/.info"
+
 terminate() {
     killall -9 java &> /dev/null
     killall -9 dialog &> /dev/null

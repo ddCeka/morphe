@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 
 SRC="$HOME/.local/morphe"
-source "$CONFIG_DIR/.config"
-
+CONFIG_DIR="config"
+source "$CONFIG_DIR/.info"
 STORAGE="$HOME/app"
 
 ARCH=$(getprop ro.product.cpu.abi)
@@ -17,4 +17,4 @@ CURL=(curl -sL --fail-early --connect-timeout 2 --max-time 5 -H 'Cache-Control: 
 WGET=(wget -qc --show-progress --user-agent="$USER_AGENT")
 
 NAVIGATION_HINT="Navigate with [↑] [↓] [←] [→]"
-SELECTION_HINT="press [SPACE] to Select, press [ENTER] to Confirm"
+SELECTION_HINT="Select with [SPACE], Confirm with [ENTER]"

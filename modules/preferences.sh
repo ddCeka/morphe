@@ -1,7 +1,5 @@
 #!/usr/bin/bash
 
-CONFIG_DIR="config"
-
 configure() {
     local CONFIG_OPTS UPDATED_CONFIG THEME
     local PREV_USE_PRE_RELEASE="$USE_PRE_RELEASE"
@@ -9,12 +7,13 @@ configure() {
         "LIGHT_THEME" "Light Theme" "$LIGHT_THEME"
         "PREFER_SPLIT_APK" "Prefer Split APK" "$PREFER_SPLIT_APK"
         "USE_PRE_RELEASE" "Use Pre-release" "$USE_PRE_RELEASE"
+        "LAUNCH_APP_AFTER_MOUNT" "Launch App After Mount" "$LAUNCH_APP_AFTER_MOUNT"
         "ALLOW_APP_VERSION_DOWNGRADE" "Allow App Version Downgrade" "$ALLOW_APP_VERSION_DOWNGRADE"
     )
 
     readarray -t UPDATED_CONFIG < <(
         "${DIALOG[@]}" \
-            --title '| Configure |' \
+            --title '| Settings |' \
             --no-tags \
             --separate-output \
             --no-cancel \
@@ -37,5 +36,5 @@ configure() {
     fi
 
     [ "$LIGHT_THEME" == "on" ] && THEME="LIGHT" || THEME="DARK"
-    export DIALOGRC="config/.DIALOGRC_$THEME"
+    export DIALOGRC="$CONFIG_DIR/.DIALOGRC_$THEME"
 }

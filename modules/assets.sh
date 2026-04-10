@@ -114,7 +114,7 @@ fetchAssetsInfo() {
             return 1
         fi
     else
-        notify msg "Unable to check for update.\nYou are probably rate-limited at this moment.\nTry again later"
+        notify msg "Unable to check for update.\nYou are probably rate-limited at this moment.\nTry again later or Run again with '-o' argument."
         return 1
     fi
     source "assets/$SOURCE_TYPE-cli.data"

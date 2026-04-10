@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 
 SRC="$HOME/.local/morphe"
+CONFIG_DIR="config"
+[ -e "$CONFIG_DIR/.config" ] && source "$CONFIG_DIR/.config"
 
 HELP="morphe 
 
@@ -28,7 +30,7 @@ while getopts ":hruv" OPT 2> /dev/null; do
             ;;
         v)
             if [ -e "$SRC" ]; then
-                source "$SRC/config/.info"
+                source "$CONFIG_DIR/.info"
                 echo "$VERSION"
             else
                 echo "Morphe not installed !!"
@@ -80,6 +82,8 @@ if ! installDependencies; then
     echo -e "Dependencies not installed !!\nRun again with stable internet connection."
     exit 1
 fi
+
+clear
 
 if [ "$ROOT_ACCESS" != false ] && su -c 'exit' &> /dev/null; then
     ROOT_ACCESS=true

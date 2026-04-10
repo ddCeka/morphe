@@ -44,11 +44,13 @@ patchApp() {
             ;;
     esac
     # Migration
-    if [ -f "$HOME/.keystore/ceka.keystore" ]; then
+    if [ -f "$STORAGE/ceka.keystore" ]; then
         if grep -qa "Morphe Key" "$STORAGE/ceka.keystore"; then
-            cp "$HOME/.keystore/ceka.keystore" "$STORAGE/morphe.keystore"
-        else grep -qa "ReVanced Key" "$STORAGE/ceka.keystore"; then
-            cp "$HOME/.keystore/ceka.keystore" "$STORAGE/revanced.keystore"
+            mv "$STORAGE/ceka.keystore" "$STORAGE/morphe.keystore"
+        elif grep -qa "ReVanced Key" "$STORAGE/ceka.keystore"; then
+            mv "$STORAGE/ceka.keystore" "$STORAGE/revanced.keystore"
+        else
+            rm "$STORAGE/ceka.keystore"
         fi
     fi
 
@@ -88,7 +90,7 @@ patchApp() {
             --force --exclusive -p "$PATCHES_FILE" \
             -o "apps/$APP_NAME/$APP_VER-$SOURCE.apk" \
             "${ARGUMENTS[@]}" \
-            --keystore="$STORAGE/*.keystore" \
+            --keystore="$STORAGE/morphe.keystore" \
             "apps/$APP_NAME/$APP_VER.apk" |&
             tee -a "logs/patch_log.txt" |
             "${DIALOG[@]}" \
@@ -134,7 +136,7 @@ patchApp() {
             -o "apps/$APP_NAME/$APP_VER-$SOURCE.apk" \
             "${ARGUMENTS[@]}" \
             --custom-aapt2-binary="$HOME/bin/aapt2" \
-            --keystore="$STORAGE/*.keystore" \
+            --keystore="$STORAGE/revanced.keystore" \
             "apps/$APP_NAME/$APP_VER.apk" |&
             tee -a "logs/patch_log.txt" |
             "${DIALOG[@]}" \
@@ -180,7 +182,7 @@ patchApp() {
             --out="apps/$APP_NAME/$APP_VER-$SOURCE.apk" \
             "${ARGUMENTS[@]}" \
             --custom-aapt2-binary="$HOME/bin/aapt2" \
-            --keystore="$STORAGE/*.keystore" \
+            --keystore="$STORAGE/revanced.keystore" \
             "apps/$APP_NAME/$APP_VER.apk" |&
             tee -a "logs/patch_log.txt" |
             "${DIALOG[@]}" \

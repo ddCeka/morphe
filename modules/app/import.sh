@@ -1,12 +1,12 @@
 #!/usr/bin/bash
 
 selectFile() {
-    local DIR="$HOME/app"
+    local DIR="/storage/emulated/0/Download"
     
     while :; do
         local MAX_LENGTH=$(( $(tput cols) * 3 / 5 ))
         local ITEMS=() MENU_ITEMS=()
-        [[ "$DIR" != "$HOME/app" ]] && ITEMS+=("...")
+        [[ "$DIR" != "/storage/emulated/0" ]] && ITEMS+=("...")
         
         readarray -t -O ${#ITEMS[@]} ITEMS < <(
             {
@@ -38,7 +38,7 @@ selectFile() {
                 --title '| Import App |' \
                 --no-tags \
                 --item-help \
-                --default-item "$([[ "$DIR" != "$HOME/app" ]] && printf '%s' "${ITEMS[1]}" || printf '%s' "${ITEMS[0]}")" \
+                --default-item "$([[ "$DIR" != "/storage/emulated/0" ]] && printf '%s' "${ITEMS[1]}" || printf '%s' "${ITEMS[0]}")" \
                 --menu "$NAVIGATION_HINT\n\nCurrent Path: $DIR" $(( $(tput lines) - 3 )) -1 15 \
                 "${MENU_ITEMS[@]}" \
                 2>&1 >/dev/tty

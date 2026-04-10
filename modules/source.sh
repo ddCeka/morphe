@@ -1,7 +1,5 @@
 #!/usr/bin/bash
 
-CONFIG_DIR="config"
-
 changeSource() {
     local SELECTED_SOURCE SOURCES_INFO
     readarray -t SOURCES_INFO < <(jq -r --arg SOURCE "$SOURCE" '.[] | .source | ., if . == $SOURCE then "on" else "off" end' sources.json)
