@@ -76,8 +76,6 @@ installDependencies() {
     return 0
 }
 
-clear
-
 if ! installDependencies; then
     echo -e "Dependencies not installed !!\nRun again with stable internet connection."
     exit 1
