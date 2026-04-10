@@ -8,7 +8,7 @@ STORAGE="$HOME/app"
 ARCH=$(getprop ro.product.cpu.abi)
 DPI=$(getprop ro.sf.lcd_density)
 
-USER_AGENT="Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36"
+USER_AGENT="APKUpdater"
 
 DIALOG=(dialog --backtitle "Morphe ${VERSION}" --no-shadow --begin 2 0)
 
