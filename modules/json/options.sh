@@ -276,7 +276,7 @@ editOptions() {
             )
         ' <<< "$OPTIONS_JSON")
 
-    echo "$UPDATED_PATCHES" > "$STORAGE/$SOURCE-patches.json"
+    echo "$UPDATED_PATCHES" > "logs/$SOURCE-patches.json"
 
     ENABLED_PATCHES="$UPDATED_PATCHES"
 }
