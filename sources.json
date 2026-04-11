@@ -72,10 +72,10 @@
         }
     },
     {
-        "source": "ReVanced-Experiments",
-        "repository": "Aunali321/ReVancedExperiments",
+        "source": "Hoo-dles",
+        "repository": "hoo-dles/morphe-patches/",
         "api": {
-            "json": null,
+            "json": "https://raw.githubusercontent.com/hoo-dles/morphe-patches/refs/heads/main/patches-list.json",
             "version": null
         }
     }
