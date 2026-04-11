@@ -78,5 +78,13 @@
             "json": "https://raw.githubusercontent.com/hoo-dles/morphe-patches/refs/heads/main/patches-list.json",
             "version": null
         }
+    },
+    {
+        "source": "Adobo",
+        "repository": "jkennethcarino/adobo/",
+        "api": {
+            "json": "https://raw.githubusercontent.com/jkennethcarino/adobo/refs/heads/main/patches-list.json",
+            "version": null
+        }
     }
 ]
