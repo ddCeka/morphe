@@ -8,14 +8,6 @@
         }
     },
     {
-        "source": "ReVanced-Extended",
-        "repository": "inotia00/revanced-patches",
-        "api": {
-            "json": "https://raw.githubusercontent.com/inotia00/revanced-patches/refs/heads/revanced-extended/patches.json",
-            "version": null
-        }
-    },
-    {
         "source": "Anddea",
         "repository": "anddea/revanced-patches",
         "api": {
@@ -28,14 +20,6 @@
         "repository": "crimera/piko",
         "api": {
             "json": "https://raw.githubusercontent.com/crimera/piko/refs/heads/main/patches-list.json",
-            "version": null
-        }
-    },
-    {
-        "source": "RVX-Android-6-7",
-        "repository": "kitadai31/revanced-patches-android6-7",
-        "api": {
-            "json": "https://raw.githubusercontent.com/kitadai31/revanced-patches-android6-7/refs/heads/revanced-extended/patches.json",
             "version": null
         }
     },
@@ -84,6 +68,14 @@
         "repository": "jkennethcarino/adobo/",
         "api": {
             "json": "https://raw.githubusercontent.com/jkennethcarino/adobo/refs/heads/main/patches-list.json",
+            "version": null
+        }
+    },
+    {
+        "source": "Paresh",
+        "repository": "Paresh-Maheshwari/paresh-patches",
+        "api": {
+            "json": "https://raw.githubusercontent.com/Paresh-Maheshwari/paresh-patches/refs/heads/main/patches-list.json",
             "version": null
         }
     }
