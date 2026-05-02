@@ -48,6 +48,14 @@
         }
     },
     {
+        "source": "Anddea-morphed",
+        "repository": "wchill/anddea-rvx-morphed",
+        "api": {
+            "json": "https://raw.githubusercontent.com/wchill/anddea-rvx-morphed/refs/heads/dev/patches-list.json",
+            "version": null
+        }
+    },
+    {
         "source": "Patcheddit",
         "repository": "wchill/patcheddit",
         "api": {
