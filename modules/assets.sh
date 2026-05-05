@@ -97,9 +97,9 @@ fetchAssetsInfo() {
 
         if [ "$SOURCE_TYPE" == "morphe" ]; then
             if [ "$USE_PRE_RELEASE" == "on" ]; then
-                CLI_API_URL="https://api.github.com/repos/MorpheApp/morphe-cli/releases"
+                CLI_API_URL="https://api.github.com/repos/ddCeka/morphe-cli/releases"
             else
-                CLI_API_URL="https://api.github.com/repos/MorpheApp/morphe-cli/releases/latest"
+                CLI_API_URL="https://api.github.com/repos/ddCeka/morphe-cli/releases/latest"
             fi
         elif [ "$SOURCE_TYPE" == "rvx" ]; then
             if [ "$USE_PRE_RELEASE" == "on" ]; then
